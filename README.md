@@ -16,7 +16,7 @@ A beautiful, modern calculator application built with Electron, featuring a slee
 - **Frameless Window**: Clean, borderless interface with hidden menu bar
 
 ## Screenshots
-<img src="screenshots/screenSnip.png" width=122 height=133/>
+<img src="screenshots/screenSnip.PNG" width=122 height=133/>
 
 The calculator features:
 - Dark gradient background with neon green display
