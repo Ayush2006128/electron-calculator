@@ -1,0 +1,16 @@
+{
+  "name": "suspicious-creature-shall-z25jo",
+  "productName": "suspicious-creature-shall-z25jo",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "ayush",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "37.2.5"
+  }
+}
