@@ -9,6 +9,7 @@ function createWindow () {
     height: 650,
     frame: true,
     autoHideMenuBar: true,
+    icon: path.join(__dirname, 'assets/favicon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }

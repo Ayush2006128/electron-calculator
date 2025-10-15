@@ -1,16 +1,19 @@
 {
-  "name": "suspicious-creature-shall-z25jo",
-  "productName": "suspicious-creature-shall-z25jo",
+  "name": "electro-calc",
+  "productName": "electro-calc",
   "description": "My Electron application description",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.0",
   "author": "ayush",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir -c build-config.json",
+    "dist": "electron-builder -c build-config.json",
+    "build": "npm run dist"
   },
-  "dependencies": {},
   "devDependencies": {
-    "electron": "37.2.5"
+    "electron": "37.2.5",
+    "electron-builder": "^26.0.12"
   }
 }

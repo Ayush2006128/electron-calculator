@@ -1,0 +1,25 @@
+{
+  "appId": "muley.ayush.electro-calc",
+  "productName": "electro-calc",
+  "directories": {
+    "output": "dist",
+    "buildResources": "assets"
+  },
+  "files": [
+    "**/*",
+    "!dist/**",
+    "!screenshots/**",
+    "!**/*.map",
+    "!**/*.log"
+  ],
+  "asar": true,
+  "win": {
+    "target": ["nsis", "msi"],
+    "icon": "assets/favicon.png"
+  },
+  "nsis": {
+    "oneClick": true,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": false
+  }
+}
