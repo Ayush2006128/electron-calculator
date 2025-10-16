@@ -1,23 +1,23 @@
 // Service Worker for Electro Calculator PWA
-const CACHE_NAME = 'electro-calculator-v1';
-const STATIC_CACHE_NAME = 'electro-calculator-static-v1';
-const DYNAMIC_CACHE_NAME = 'electro-calculator-dynamic-v1';
+const CACHE_NAME = 'electro-calculator-v2';
+const STATIC_CACHE_NAME = 'electro-calculator-static-v2';
+const DYNAMIC_CACHE_NAME = 'electro-calculator-dynamic-v2';
 
 // Files to cache for offline functionality
 const STATIC_FILES = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/renderer.js',
-  '/manifest.json',
-  '/assets/favicon.png',
-  '/assets/favicon.ico',
-  '/assets/icons/icon-48x48.png',
-  '/assets/icons/icon-72x72.png',
-  '/assets/icons/icon-96x96.png',
-  '/assets/icons/icon-144x144.png',
-  '/assets/icons/icon-192x192.png',
-  '/assets/icons/icon-512x512.png'
+  './',
+  './index.html',
+  './style.css',
+  './renderer.js',
+  './manifest.json',
+  './assets/favicon.png',
+  './assets/favicon.ico',
+  './assets/icons/icon-48x48.png',
+  './assets/icons/icon-72x72.png',
+  './assets/icons/icon-96x96.png',
+  './assets/icons/icon-144x144.png',
+  './assets/icons/icon-192x192.png',
+  './assets/icons/icon-512x512.png'
 ];
 
 // Install event - cache static files
@@ -104,7 +104,7 @@ self.addEventListener('fetch', (event) => {
           .catch(() => {
             // If network fails and no cache, return offline page
             if (event.request.destination === 'document') {
-              return caches.match('/index.html');
+              return caches.match('./index.html');
             }
           });
       })
@@ -128,8 +128,8 @@ self.addEventListener('push', (event) => {
   
   const options = {
     body: event.data ? event.data.text() : 'New notification from Calculator',
-    icon: '/assets/favicon.png',
-    badge: '/assets/favicon.png',
+    icon: './assets/favicon.png',
+    badge: './assets/favicon.png',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
@@ -139,7 +139,7 @@ self.addEventListener('push', (event) => {
       {
         action: 'open',
         title: 'Open Calculator',
-        icon: '/assets/favicon.png'
+        icon: './assets/favicon.png'
       }
     ]
   };
@@ -156,7 +156,7 @@ self.addEventListener('notificationclick', (event) => {
 
   if (event.action === 'open') {
     event.waitUntil(
-      clients.openWindow('/')
+      clients.openWindow('./')
     );
   }
 });
