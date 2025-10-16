@@ -64,8 +64,11 @@
 
 <!-- PWA Service Worker Registration -->
 <script>
-    // Register Service Worker for PWA functionality
-    if ('serviceWorker' in navigator) {
+    // Check if running in Electron
+    const isElectron = window.navigator.userAgent.toLowerCase().indexOf('electron') > -1;
+    
+    // Register Service Worker for PWA functionality (skip in Electron)
+    if ('serviceWorker' in navigator && !isElectron) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js')
                 .then((registration) => {
@@ -94,59 +97,63 @@
         navigator.serviceWorker.addEventListener('controllerchange', () => {
             window.location.reload();
         });
+    } else if (isElectron) {
+        console.log('Running in Electron - Service Worker disabled');
     }
 
-    // PWA Install Prompt
-    let deferredPrompt;
-    const installButton = document.createElement('button');
-    installButton.textContent = 'Install App';
-    installButton.style.cssText = `
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 12px;
-        font-weight: bold;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        display: none;
-        z-index: 1000;
-        transition: all 0.3s ease;
-    `;
-    installButton.addEventListener('mouseenter', () => {
-        installButton.style.transform = 'scale(1.05)';
-    });
-    installButton.addEventListener('mouseleave', () => {
-        installButton.style.transform = 'scale(1)';
-    });
+    // PWA Install Prompt (skip in Electron)
+    if (!isElectron) {
+        let deferredPrompt;
+        const installButton = document.createElement('button');
+        installButton.textContent = 'Install App';
+        installButton.style.cssText = `
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        `;
+        installButton.addEventListener('mouseenter', () => {
+            installButton.style.transform = 'scale(1.05)';
+        });
+        installButton.addEventListener('mouseleave', () => {
+            installButton.style.transform = 'scale(1)';
+        });
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installButton.style.display = 'block';
-        document.body.appendChild(installButton);
-    });
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+            document.body.appendChild(installButton);
+        });
 
-    installButton.addEventListener('click', async () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response to the install prompt: ${outcome}`);
-            deferredPrompt = null;
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                deferredPrompt = null;
+                installButton.style.display = 'none';
+            }
+        });
+
+        // Hide install button after successful installation
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
             installButton.style.display = 'none';
-        }
-    });
-
-    // Hide install button after successful installation
-    window.addEventListener('appinstalled', () => {
-        console.log('PWA was installed');
-        installButton.style.display = 'none';
-        deferredPrompt = null;
-    });
+            deferredPrompt = null;
+        });
+    }
 
     // Add keyboard support for better accessibility
     document.addEventListener('keydown', (e) => {

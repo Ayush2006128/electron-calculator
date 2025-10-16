@@ -3,7 +3,7 @@
   "productName": "electro-calc",
   "directories": {
     "output": "dist",
-    "buildResources": "assets"
+    "buildResources": "./"
   },
   "files": [
     "**/*",

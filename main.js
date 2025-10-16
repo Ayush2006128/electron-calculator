@@ -11,15 +11,27 @@ function createWindow () {
     autoHideMenuBar: true,
     icon: path.join(__dirname, 'assets/favicon.png'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true,
+      enableRemoteModule: false
     }
   })
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  // Open the DevTools for debugging
+  mainWindow.webContents.openDevTools()
+
+  // Add error handling
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription, validatedURL) => {
+    console.error('Failed to load:', errorCode, errorDescription, validatedURL);
+  });
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    console.log('Page loaded successfully');
+  });
 }
 
 // This method will be called when Electron has finished
